@@ -1,0 +1,55 @@
+{
+  "name": "forecasting-agent-poly",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.28.1",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "concurrently -n web,orchestrator,executor -c auto \"pnpm --filter @autopoly/web dev\" \"pnpm --filter @autopoly/orchestrator dev\" \"pnpm --filter @autopoly/executor dev\"",
+    "typecheck": "pnpm -r typecheck",
+    "test": "vitest run --config config/vitest.config.ts",
+    "rough-loop:once": "pnpm --filter @autopoly/rough-loop run once",
+    "rough-loop:dev": "pnpm --filter @autopoly/rough-loop run dev",
+    "rough-loop:start": "pnpm --filter @autopoly/rough-loop run start",
+    "rough-loop:doctor": "pnpm --filter @autopoly/rough-loop run doctor",
+    "e2e:install-browsers": "pnpm --filter @autopoly/e2e-suite install:browsers",
+    "e2e:local-lite": "pnpm --filter @autopoly/e2e-suite test:local-lite",
+    "e2e:remote-real": "pnpm --filter @autopoly/e2e-suite test:remote-real",
+    "trial:recommend": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/db build && pnpm --filter @autopoly/orchestrator trial:recommend",
+    "trial:approve": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/db build && pnpm --filter @autopoly/orchestrator trial:approve",
+    "trial:reset-paper": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/db build && pnpm --filter @autopoly/orchestrator trial:reset-paper",
+    "trial:run": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/db build && pnpm --filter @autopoly/orchestrator trial:run",
+    "daily:pulse": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/terminal-ui build && tsx scripts/daily-pulse.ts",
+    "agent:persistent": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/db build && pnpm --filter @autopoly/terminal-ui build && tsx scripts/agent-persistent-runner.ts",
+    "live:test": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/db build && pnpm --filter @autopoly/terminal-ui build && tsx scripts/live-test.ts",
+    "pulse:live": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/terminal-ui build && tsx scripts/pulse-live.ts",
+    "pulse:recommend": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/terminal-ui build && tsx scripts/pulse-live.ts --recommend-only",
+    "pulse:positions": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/terminal-ui build && tsx scripts/pulse-live.ts --recommend-only --positions-only",
+    "managed:pulse": "pnpm --filter @autopoly/contracts build && pnpm --filter @autopoly/db build && tsx scripts/managed-pulse.ts",
+    "poly:cache-order-limits": "tsx scripts/cache-polymarket-order-limits.ts",
+    "db:generate": "pnpm --filter @autopoly/db drizzle-kit generate",
+    "db:migrate": "pnpm --filter @autopoly/db drizzle-kit migrate",
+    "db:seed": "pnpm --filter @autopoly/db seed",
+    "vendor:sync": "node scripts/sync-vendors.mjs"
+  },
+  "dependencies": {
+    "@autopoly/contracts": "workspace:*",
+    "@autopoly/db": "workspace:*",
+    "@autopoly/terminal-ui": "workspace:*",
+    "bullmq": "5.71.0",
+    "drizzle-orm": "0.45.1",
+    "ethers": "5.7.2",
+    "ioredis": "5.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "25.5.0",
+    "concurrently": "9.2.1",
+    "playwright": "1.56.1",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
+  }
+}

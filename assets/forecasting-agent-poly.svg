@@ -1,0 +1,14 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Forecasting Agent Poly</title>
+  <desc id="desc">Abstract forecasting signal mark with a rising prediction curve.</desc>
+  <rect width="512" height="512" rx="96" fill="#101820"/>
+  <circle cx="144" cy="336" r="16" fill="#9BE7C7"/>
+  <circle cx="240" cy="264" r="16" fill="#F6C65B"/>
+  <circle cx="336" cy="184" r="16" fill="#7BC7FF"/>
+  <circle cx="400" cy="128" r="16" fill="#FF7A5C"/>
+  <path d="M144 336L240 264L336 184L400 128" stroke="#F7F3E8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M112 384H416" stroke="#334155" stroke-width="16" stroke-linecap="round"/>
+  <path d="M112 112V384" stroke="#334155" stroke-width="16" stroke-linecap="round"/>
+  <path d="M168 152C196 116 244 92 296 92C336 92 373 106 402 130" stroke="#7BC7FF" stroke-width="12" stroke-linecap="round" opacity="0.55"/>
+  <path d="M176 416H384" stroke="#F7F3E8" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+</svg>

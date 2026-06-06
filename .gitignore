@@ -1,0 +1,52 @@
+# --- Build artifacts ---
+node_modules
+.next
+dist
+coverage
+.turbo
+*.tsbuildinfo
+
+# --- OS noise ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# --- Editor noise ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# --- Secrets / env ---
+.env
+.env.*
+!.env.example
+agents.env
+
+# --- Local-only state files ---
+.rough-loop.pause
+.rough-loop.lock
+
+# --- Claude Code transient worktrees (multi-GB sub-agent scratch dirs) ---
+.claude/worktrees/
+
+# --- Vendor mirrors (synced via pnpm vendor:sync) ---
+vendor/repos
+
+# --- Runtime artifacts (large + per-run) ---
+runtime-artifacts/*
+!runtime-artifacts/.gitkeep
+run-error/
+output/
+.local/
+.playwright-cli/
+
+# --- E2E suite artifacts ---
+e2e/artifacts/*
+!e2e/artifacts/.gitkeep
+e2e/e2e/
+
+# --- Deploy adapters (auto-generated on link) ---
+.vercel
