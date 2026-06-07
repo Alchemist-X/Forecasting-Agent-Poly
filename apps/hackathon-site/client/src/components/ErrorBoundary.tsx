@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { AlertTriangle, RotateCcw } from "lucide-react";
 import { Component, ReactNode } from "react";
+import BrandIcon from "./BrandIcon";
 
 interface Props {
   children: ReactNode;
@@ -26,10 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex items-center justify-center min-h-screen p-8 bg-background">
           <div className="flex flex-col items-center w-full max-w-2xl p-8">
-            <AlertTriangle
-              size={48}
-              className="text-destructive mb-6 flex-shrink-0"
-            />
+            <BrandIcon className="mb-6 h-16 w-16 flex-shrink-0" />
 
             <h2 className="text-xl mb-4">页面发生了意外错误。</h2>
 
@@ -47,7 +44,7 @@ class ErrorBoundary extends Component<Props, State> {
                 "hover:opacity-90 cursor-pointer"
               )}
             >
-              <RotateCcw size={16} />
+              <BrandIcon className="h-4 w-4" />
               重新加载
             </button>
           </div>

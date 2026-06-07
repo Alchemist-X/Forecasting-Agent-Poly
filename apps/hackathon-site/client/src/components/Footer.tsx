@@ -1,4 +1,4 @@
-import { Code2 } from "lucide-react";
+import BrandIcon from "./BrandIcon";
 
 export default function Footer() {
   return (
@@ -7,11 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Left */}
           <div className="flex items-center gap-3">
-            <img
-              src="/assets/forecasting-agent-poly.svg"
-              alt="Forecasting Agent Poly"
-              className="w-8 h-8 rounded-lg"
-            />
+            <BrandIcon className="w-8 h-8" />
             <div>
               <p className="text-sm font-heading font-semibold text-white">Forecasting Agent Poly</p>
               <p className="text-xs text-white/40">面向预测市场的自主预测研究工作流</p>
@@ -31,7 +27,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-white/40 hover:text-white transition-colors"
             >
-              <Code2 className="w-5 h-5" />
+              <BrandIcon className="w-5 h-5 transition-transform duration-200 hover:scale-110" />
             </a>
           </div>
         </div>

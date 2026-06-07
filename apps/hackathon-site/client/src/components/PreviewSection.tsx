@@ -1,4 +1,4 @@
-import { Activity, ExternalLink, GitBranch } from "lucide-react";
+import BrandIcon from "./BrandIcon";
 
 const traceLines = [
   { label: "市场扫描", value: "已规范化 12 个候选预测市场" },
@@ -45,7 +45,7 @@ export default function PreviewSection() {
                 <span className="text-xs text-white/50 ml-3 font-mono">forecasting-agent-poly — 研究运行</span>
               </div>
               <div className="flex items-center gap-2">
-                <Activity className="w-3.5 h-3.5 text-primary opacity-90" />
+                <BrandIcon className="h-4 w-4" />
                 <span className="text-xs text-primary font-mono font-medium">演示轨迹</span>
               </div>
             </div>
@@ -105,14 +105,14 @@ export default function PreviewSection() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/[0.05] border border-white/15 text-sm text-white/80 hover:text-white hover:bg-white/10 hover:border-primary/30 transition-all duration-200"
           >
-            <GitBranch className="w-4 h-4" />
+            <BrandIcon className="w-4 h-4" />
             代码仓库
           </a>
           <a
             href="#architecture"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/[0.05] border border-white/15 text-sm text-white/80 hover:text-white hover:bg-white/10 hover:border-primary/30 transition-all duration-200"
           >
-            <ExternalLink className="w-4 h-4" />
+            <BrandIcon className="w-4 h-4" />
             查看流程
           </a>
         </div>

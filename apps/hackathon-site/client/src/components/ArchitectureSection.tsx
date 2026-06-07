@@ -1,4 +1,5 @@
-import { ArrowDown, Brain, Database, Search, ShieldCheck } from "lucide-react";
+import { ArrowDown } from "lucide-react";
+import BrandIcon from "./BrandIcon";
 
 const stageOneSteps = [
   {
@@ -79,15 +80,13 @@ export default function ArchitectureSection() {
 
         <div className="mx-auto mb-12 grid max-w-5xl gap-3 md:grid-cols-4">
           {[
-            { icon: <Search className="h-4 w-4" />, title: "定义问题", body: "明确市场判定条件" },
-            { icon: <Database className="h-4 w-4" />, title: "收集证据", body: "新闻、官方源、X、.API" },
-            { icon: <Brain className="h-4 w-4" />, title: "概率建模", body: "拆分条件概率" },
-            { icon: <ShieldCheck className="h-4 w-4" />, title: "输出归档", body: "结论、依据、市场偏差" },
+            { title: "定义问题", body: "明确市场判定条件" },
+            { title: "收集证据", body: "新闻、官方源、X、.API" },
+            { title: "概率建模", body: "拆分条件概率" },
+            { title: "输出归档", body: "结论、依据、市场偏差" },
           ].map((item) => (
             <div key={item.title} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-              <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-primary/25 bg-primary/15 text-primary">
-                {item.icon}
-              </div>
+              <BrandIcon className="mb-3 h-10 w-10" />
               <p className="text-sm font-semibold text-white">{item.title}</p>
               <p className="mt-1 text-xs leading-relaxed text-white/50">{item.body}</p>
             </div>

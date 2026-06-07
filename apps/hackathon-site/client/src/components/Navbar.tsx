@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Code2, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import BrandIcon from "./BrandIcon";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -30,11 +31,7 @@ export default function Navbar() {
       <div className="container flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
         <a href="#hero" className="flex items-center gap-2.5 group">
-          <img
-            src="/assets/forecasting-agent-poly.svg"
-            alt="Forecasting Agent Poly"
-            className="w-9 h-9 rounded-lg transition-transform duration-300 group-hover:scale-110"
-          />
+          <BrandIcon className="w-9 h-9 transition-transform duration-300 group-hover:scale-110" />
           <span className="font-heading font-bold text-lg text-white tracking-tight">
             Forecasting Agent Poly
           </span>
@@ -61,7 +58,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white/80 hover:bg-white/10 hover:text-white transition-all duration-200"
           >
-            <Code2 className="w-4 h-4" />
+            <BrandIcon className="w-4 h-4" />
             查看代码
           </a>
         </div>
@@ -95,7 +92,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white/80 w-fit"
             >
-              <Code2 className="w-4 h-4" />
+              <BrandIcon className="w-4 h-4" />
               查看代码
             </a>
           </div>

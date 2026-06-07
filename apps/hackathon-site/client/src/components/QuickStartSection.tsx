@@ -1,29 +1,25 @@
-import { BarChart3, FileCheck2, Radar, Terminal } from "lucide-react";
+import BrandIcon from "./BrandIcon";
 
 const steps = [
   {
-    icon: <Terminal className="w-5 h-5" />,
     step: "01",
     title: "准备环境",
     command: "帮我启动 Forecasting Agent Poly",
     description: "Agent 会完成依赖安装、类型检查和本地构建，确认演示环境可运行。",
   },
   {
-    icon: <Radar className="w-5 h-5" />,
     step: "02",
     title: "选择市场",
     command: "抓取最新的核协议预测市场",
     description: "系统读取市场规则、截止时间、新闻来源和关键实体，建立研究上下文。",
   },
   {
-    icon: <BarChart3 className="w-5 h-5" />,
     step: "03",
     title: "生成预测",
     command: "输出概率判断和证据链",
     description: "Agent 生成概率区间、关键证据、反方证据和需要人工复核的风险点。",
   },
   {
-    icon: <FileCheck2 className="w-5 h-5" />,
     step: "04",
     title: "归档报告",
     command: "保存这次研究记录",
@@ -55,9 +51,7 @@ export default function QuickStartSection() {
               <div className="p-5 rounded-xl border border-white/[0.12] bg-white/[0.04] hover:border-primary/40 hover:bg-white/[0.07] transition-all duration-300 h-full">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
-                      {s.icon}
-                    </div>
+                    <BrandIcon className="h-10 w-10" />
                     <span className="text-lg font-mono text-white/30 font-bold">{s.step}</span>
                   </div>
                   <h3 className="text-base font-semibold text-white" style={{ fontFamily: "var(--font-heading)" }}>{s.title}</h3>

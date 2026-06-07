@@ -1,7 +1,6 @@
-import { Brain, Check, Database, Plug } from "lucide-react";
+import BrandIcon from "./BrandIcon";
 
 interface FeatureBlockProps {
-  icon: React.ReactNode;
   title: string;
   description: string;
   points: string[];
@@ -48,14 +47,12 @@ function MockEvidenceVisual() {
   );
 }
 
-function FeatureBlock({ icon, title, description, points, image, visual, reverse }: FeatureBlockProps) {
+function FeatureBlock({ title, description, points, image, visual, reverse }: FeatureBlockProps) {
   return (
     <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
       {/* Text */}
       <div className={`space-y-6 ${reverse ? "lg:order-2" : ""}`}>
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/15 border border-primary/25 text-primary">
-          {icon}
-        </div>
+        <BrandIcon className="h-14 w-14" />
         <h3 className="text-2xl md:text-3xl font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
           {title}
         </h3>
@@ -65,7 +62,7 @@ function FeatureBlock({ icon, title, description, points, image, visual, reverse
         <ul className="space-y-3">
           {points.map((point, i) => (
             <li key={i} className="flex items-start gap-3">
-              <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+              <BrandIcon className="mt-0.5 h-5 w-5 shrink-0" />
               <span className="text-white/80 text-sm">{point}</span>
             </li>
           ))}
@@ -96,7 +93,6 @@ function FeatureBlock({ icon, title, description, points, image, visual, reverse
 export default function FeaturesSection() {
   const features: FeatureBlockProps[] = [
     {
-      icon: <Brain className="w-6 h-6" />,
       title: "Ribbon Forecasting 决策引擎",
       description:
         "AI 自主评估事件发生概率，动态收集证据，与市场规则和公开信息对齐，输出可解释的概率区间和关键假设。",
@@ -109,7 +105,6 @@ export default function FeaturesSection() {
       reverse: false,
     },
     {
-      icon: <Plug className="w-6 h-6" />,
       title: "多模型支持，灵活切换",
       description:
         "系统不绑定单一 AI 框架，Codex、Claude Code、OpenClaw 均可无缝接入。仅需修改一行环境变量即可完成模型提供方切换。",
@@ -122,7 +117,6 @@ export default function FeaturesSection() {
       reverse: true,
     },
     {
-      icon: <Database className="w-6 h-6" />,
       title: "证据图谱与研究归档",
       description:
         "Forecasting Agent Poly 会把新闻、官方公告、市场条款、X 和可扩展开放信息源统一整理为证据图谱。xapito 可以帮助 Agent 接入并结构化这些实时信息，让每次预测都有可追溯的来源和冲突点。",

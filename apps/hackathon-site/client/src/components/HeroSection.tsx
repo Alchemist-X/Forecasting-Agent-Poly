@@ -1,5 +1,5 @@
-import { ArrowRight, GitBranch, Zap } from "lucide-react";
 import type { ReactNode } from "react";
+import BrandIcon from "./BrandIcon";
 
 function AnimatedCounter({ target, suffix = "" }: { target: ReactNode; suffix?: string }) {
   return (
@@ -35,7 +35,7 @@ export default function HeroSection() {
           {/* Left - Text */}
           <div className="space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
-              <Zap className="w-3 h-3" />
+              <BrandIcon className="h-4 w-4" />
               Forecasting Agent Poly · 预测研究演示
             </div>
 
@@ -43,11 +43,8 @@ export default function HeroSection() {
               <span className="block text-[1.8rem] sm:text-[2.1rem] md:text-[2.35rem] lg:text-[2.6rem] text-primary oracle-glow-text">
                 能在 Polymarket 上自主交易的预测 Agent
               </span>
-              <span className="block mt-3 text-[2.45rem] sm:text-[3rem] md:text-[3.45rem] lg:text-[4rem]">
-                Forecasting Agent
-              </span>
-              <span className="block text-[2.35rem] sm:text-[2.8rem] md:text-[3.15rem] lg:text-[3.55rem] text-white/90">
-                Poly
+              <span className="mt-3 block whitespace-nowrap text-[clamp(1.75rem,7vw,4rem)] text-white">
+                Forecasting Agent Poly
               </span>
             </h1>
 
@@ -63,13 +60,13 @@ export default function HeroSection() {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-white font-medium text-sm hover:bg-primary/90 transition-all duration-200 oracle-glow active:scale-[0.97]"
               >
                 查看代码
-                <ArrowRight className="w-4 h-4" />
+                <BrandIcon className="w-4 h-4" />
               </a>
               <a
                 href="#preview"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white/5 border border-white/10 text-white/80 font-medium text-sm hover:bg-white/10 hover:text-white transition-all duration-200 active:scale-[0.97]"
               >
-                <GitBranch className="w-4 h-4" />
+                <BrandIcon className="w-4 h-4" />
                 查看流程
               </a>
             </div>
@@ -96,13 +93,14 @@ export default function HeroSection() {
 
           {/* Right - Logo */}
           <div className="hidden lg:flex justify-center items-center">
-            <div className="relative">
+            <div className="relative flex h-[26rem] w-[26rem] xl:h-[30rem] xl:w-[30rem] items-center justify-center">
               {/* Glow ring */}
-              <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl scale-150" />
+              <div className="absolute inset-10 rounded-full bg-primary/20 blur-3xl" />
+              <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,94,72,0.18),transparent_62%)]" />
               <img
-                src="/assets/hero-oracle-crystal.png"
+                src="/assets/oracle-symbol.png"
                 alt="Forecasting Agent Poly 主视觉"
-                className="relative w-80 h-80 xl:w-96 xl:h-96 object-cover rounded-[2rem] border border-white/15 animate-float shadow-2xl shadow-primary/10"
+                className="relative h-full w-full object-contain animate-float drop-shadow-[0_30px_80px_rgba(255,92,64,0.22)]"
               />
             </div>
           </div>
