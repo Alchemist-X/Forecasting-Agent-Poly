@@ -214,6 +214,34 @@ https://hackathon-site-murex.vercel.app
 - 最终输出：Agent 概率、市场定价、差异说明
 - 网页展示：适合评委和团队成员快速理解
 
+## 真实运行证据
+
+下面的截图来自一次真实运行记录，用来说明 Forecasting Agent Poly 不是静态展示页：系统可以从自然语言请求进入实盘级流程，执行账户 preflight、等待 Pulse 模型报告、生成 `recommendation.json` 和 PDF 研究报告，并在 live 前由 guardrail 拦截不满足风控条件的执行计划。
+
+### 自然语言请求进入真实流程
+
+用户提出“推荐两个市场，完成下单，并生成 PDF 报告”后，Agent 没有直接硬下单，而是先进入只读推荐、账户 preflight 和归档路径检查。
+
+<p align="center">
+  <img src="docs/assets/readme/run-request-preflight.png" alt="自然语言请求进入 preflight 和只读推荐流程" width="780" />
+</p>
+
+### Pulse 报告阶段正常运行
+
+Pulse 模型报告阶段会出现数分钟无 stdout 的等待窗口。系统会保留 pending archive、preflight 文件和中间 JSON，等待模型报告完成后再进入 decision runtime。
+
+<p align="center">
+  <img src="docs/assets/readme/run-pulse-report-wait.png" alt="Pulse 报告阶段等待模型输出和归档文件" width="780" />
+</p>
+
+### 风控拦截证明执行链路真实生效
+
+系统解析出候选执行计划后，会继续检查 exposure、订单 sizing、FOK 最小订单等约束。截图中两个候选新开仓被组合敞口上限拦截，说明执行链路不是 mock，风控规则会在 live 前真实生效。
+
+<p align="center">
+  <img src="docs/assets/readme/run-risk-guardrail.png" alt="候选执行计划被组合 exposure guardrail 拦截" width="780" />
+</p>
+
 ## 模型与 Provider
 
 系统不绑定单一模型框架。当前设计允许通过 runtime provider 接入不同 Agent：

@@ -214,6 +214,34 @@ A complete research run usually preserves:
 - final output: agent probability, market pricing, difference explanation
 - web presentation for judges and collaborators
 
+## Real Run Evidence
+
+The screenshots below come from a real run record. They show that Forecasting Agent Poly is not a static demo page: a natural-language request can enter the live-grade workflow, run account preflight, wait for Pulse model reporting, produce `recommendation.json` plus PDF research artifacts, and apply guardrails before any live execution is allowed.
+
+### Natural-Language Request To Preflight
+
+After the user asked for two market recommendations, order execution, and a PDF report, the agent did not place orders blindly. It first entered read-only recommendation, account preflight, and archive-path checks.
+
+<p align="center">
+  <img src="../assets/readme/run-request-preflight.png" alt="Natural-language request entering preflight and read-only recommendation flow" width="780" />
+</p>
+
+### Pulse Report Running Window
+
+Pulse report generation can spend several minutes without stdout. The system keeps the pending archive, preflight file, and intermediate JSON, then enters decision runtime after the model report is complete.
+
+<p align="center">
+  <img src="../assets/readme/run-pulse-report-wait.png" alt="Pulse report waiting for model output and archived artifacts" width="780" />
+</p>
+
+### Guardrails Prove The Execution Path Is Real
+
+After candidate execution plans are parsed, the system checks exposure, sizing, FOK minimum order constraints, and other guardrails. In this run, two candidate opens were blocked by portfolio exposure limits, proving that the execution path is not a mock and risk rules apply before live execution.
+
+<p align="center">
+  <img src="../assets/readme/run-risk-guardrail.png" alt="Candidate execution plan blocked by portfolio exposure guardrail" width="780" />
+</p>
+
 ## Model Providers
 
 The system is not tied to a single agent framework:
