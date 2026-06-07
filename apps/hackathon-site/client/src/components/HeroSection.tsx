@@ -1,6 +1,7 @@
 import { ArrowRight, GitBranch, Zap } from "lucide-react";
+import type { ReactNode } from "react";
 
-function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: string }) {
+function AnimatedCounter({ target, suffix = "" }: { target: ReactNode; suffix?: string }) {
   return (
     <div className="transition-all duration-700 opacity-100 scale-100">
       <div className="text-3xl md:text-4xl font-heading font-bold text-white">
@@ -38,14 +39,20 @@ export default function HeroSection() {
               Forecasting Agent Poly · 预测研究演示
             </div>
 
-            <h1 className="text-[2rem] sm:text-[2.45rem] md:text-[2.9rem] lg:text-[3.25rem] xl:text-[3.5rem] font-heading font-bold text-white leading-[1.12] tracking-tight">
-              <span className="text-primary oracle-glow-text">自主</span>{" "}
-              Forecasting Agent Poly{" "}
-              <span className="whitespace-nowrap">for Prediction Markets</span>
+            <h1 className="font-heading font-bold text-white leading-[1.08]">
+              <span className="block text-[1.8rem] sm:text-[2.1rem] md:text-[2.35rem] lg:text-[2.6rem] text-primary oracle-glow-text">
+                能在 Polymarket 上自主交易的预测 Agent
+              </span>
+              <span className="block mt-3 text-[2.45rem] sm:text-[3rem] md:text-[3.45rem] lg:text-[4rem]">
+                Forecasting Agent
+              </span>
+              <span className="block text-[2.35rem] sm:text-[2.8rem] md:text-[3.15rem] lg:text-[3.55rem] text-white/90">
+                Poly
+              </span>
             </h1>
 
             <p className="text-lg text-white/60 leading-relaxed max-w-lg">
-              Forecasting Agent Poly 将突发新闻、市场上下文和结构化证据转化为可审计的概率研究，让预测结论可以被解释、复核和归档。
+              Forecasting Agent Poly 针对具体事件生成概率预测研究，并公开关键决策思路与原始信息源，让每次判断都可以被复核、追溯和归档。
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -68,18 +75,21 @@ export default function HeroSection() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-4 border-t border-white/5">
+            <div className="grid gap-6 pt-4 border-t border-white/5 sm:grid-cols-3">
               <div className="space-y-1">
                 <AnimatedCounter target="7×24" />
                 <p className="text-xs text-white/40 uppercase tracking-wider">持续监控</p>
               </div>
               <div className="space-y-1">
-                <AnimatedCounter target="Twitter/X" />
-                <p className="text-xs text-white/40 uppercase tracking-wider">xapito 接入</p>
+                <AnimatedCounter target={<span className="text-2xl md:text-3xl">可扩展的信息源</span>} />
+                <p className="text-xs uppercase tracking-wider">
+                  <span className="text-primary">X</span>
+                  <span className="text-white/40"> .API</span>
+                </p>
               </div>
               <div className="space-y-1">
-                <AnimatedCounter target="三层" />
-                <p className="text-xs text-white/40 uppercase tracking-wider">规则约束</p>
+                <AnimatedCounter target="可审计" />
+                <p className="text-xs text-white/40 uppercase tracking-wider">非黑箱建议</p>
               </div>
             </div>
           </div>

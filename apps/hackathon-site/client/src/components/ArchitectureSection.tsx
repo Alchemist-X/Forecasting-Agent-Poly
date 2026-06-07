@@ -26,7 +26,7 @@ const stageOneSteps = [
 const evidenceSources = [
   "官方声明：白宫、国务院、伊朗国家安全委员会",
   "主流媒体：路透社、伊朗国家电视台",
-  "第三方分析：智库、Twitter/X、Reddit",
+  "第三方分析：智库、X、.API、Reddit",
   "政治动态：国会、政治人物、外交谈判",
   "军事动态：World Monitor、军事地图、地区安全事件",
 ];
@@ -80,7 +80,7 @@ export default function ArchitectureSection() {
         <div className="mx-auto mb-12 grid max-w-5xl gap-3 md:grid-cols-4">
           {[
             { icon: <Search className="h-4 w-4" />, title: "定义问题", body: "明确市场判定条件" },
-            { icon: <Database className="h-4 w-4" />, title: "收集证据", body: "新闻、官方源、Twitter/X" },
+            { icon: <Database className="h-4 w-4" />, title: "收集证据", body: "新闻、官方源、X、.API" },
             { icon: <Brain className="h-4 w-4" />, title: "概率建模", body: "拆分条件概率" },
             { icon: <ShieldCheck className="h-4 w-4" />, title: "输出归档", body: "结论、依据、市场偏差" },
           ].map((item) => (
@@ -133,7 +133,7 @@ export default function ArchitectureSection() {
                   <div className="mt-5 rounded-lg border border-primary/30 bg-primary/10 p-4">
                     <p className="text-xs font-mono font-semibold text-primary">xapito</p>
                     <p className="mt-1 text-sm leading-relaxed text-white/70">
-                      帮助 Agent 接入 Twitter/X 公开信息源，把即时叙事、KOL 观点和事件更新转成可归档的证据节点。
+                      帮助 Agent 接入 X 和 .API 等开放信息源，把即时叙事、KOL 观点和事件更新转成可归档的证据节点。
                     </p>
                   </div>
                 </div>

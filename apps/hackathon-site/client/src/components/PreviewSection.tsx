@@ -2,7 +2,7 @@ import { Activity, ExternalLink, GitBranch } from "lucide-react";
 
 const traceLines = [
   { label: "市场扫描", value: "已规范化 12 个候选预测市场" },
-  { label: "证据抓取", value: "已汇总新闻、官方来源与 Twitter/X 信号，xapito 负责结构化接入" },
+  { label: "证据抓取", value: "已汇总新闻、官方来源、X 信号与 .API 来源，xapito 负责结构化接入" },
   { label: "预测生成", value: "输出概率区间和反方证据" },
   { label: "规则检查", value: "对不确定结论附加复核门槛" },
   { label: "归档写入", value: "保存推理轨迹供演示复查" },
@@ -23,7 +23,7 @@ export default function PreviewSection() {
             一次预测运行的推理轨迹
           </h2>
           <p className="text-white/60 text-lg">
-            演示页面聚焦研究流水线、推理轨迹、规则检查和最终归档的预测报告。
+            演示页面聚焦研究流水线、推理轨迹、证据更新和最终归档的预测报告。
           </p>
         </div>
 

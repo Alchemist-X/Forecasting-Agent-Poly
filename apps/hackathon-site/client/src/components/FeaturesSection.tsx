@@ -1,4 +1,4 @@
-import { Brain, Check, Database, Plug, Shield } from "lucide-react";
+import { Brain, Check, Database, Plug } from "lucide-react";
 
 interface FeatureBlockProps {
   icon: React.ReactNode;
@@ -6,40 +6,8 @@ interface FeatureBlockProps {
   description: string;
   points: string[];
   image?: string;
-  visual?: "policy" | "evidence";
+  visual?: "evidence";
   reverse?: boolean;
-}
-
-function MockPolicyVisual() {
-  const rows = [
-    ["来源质量", "已验证"],
-    ["市场规则", "已解析"],
-    ["证据冲突", "需标记"],
-    ["人工复核", "必需"],
-  ];
-
-  return (
-    <div className="p-6 md:p-8 min-h-[320px] flex flex-col justify-center">
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <div className="rounded-lg border border-primary/20 bg-primary/10 p-4">
-          <p className="text-xs text-white/40 uppercase tracking-wider mb-2">置信度</p>
-          <p className="text-3xl font-heading font-bold text-white">区间化</p>
-        </div>
-        <div className="rounded-lg border border-amber-400/20 bg-amber-400/10 p-4">
-          <p className="text-xs text-white/40 uppercase tracking-wider mb-2">模式</p>
-          <p className="text-3xl font-heading font-bold text-white">复核</p>
-        </div>
-      </div>
-      <div className="space-y-3">
-        {rows.map(([label, status]) => (
-          <div key={label} className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3">
-            <span className="text-sm text-white/70">{label}</span>
-            <span className="text-xs font-mono text-primary">{status}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 }
 
 function MockEvidenceVisual() {
@@ -51,7 +19,7 @@ function MockEvidenceVisual() {
           <span className="text-xs font-mono text-primary">已归档</span>
         </div>
         <div className="space-y-4">
-          {["官方声明", "新闻更新", "Twitter/X 信号", "市场规则文本", "反向信号"].map((item, i) => (
+          {["官方声明", "新闻更新", "X 信号", ".API 来源", "反向证据"].map((item, i) => (
             <div key={item} className="flex items-center gap-3">
               <div className={`h-3 w-3 rounded-full ${i === 4 ? "bg-amber-300" : "bg-primary"}`} />
               <div className="h-2 flex-1 rounded-full bg-white/10 overflow-hidden">
@@ -66,11 +34,13 @@ function MockEvidenceVisual() {
         </div>
         <div className="mt-5 rounded-lg border border-primary/30 bg-primary/10 p-4">
           <div className="mb-2 flex items-center justify-between gap-3">
-            <span className="text-xs font-mono font-semibold text-primary">xapito</span>
-            <span className="text-[10px] uppercase tracking-wider text-white/35">信息源接入</span>
+            <span className="text-xs font-mono font-semibold text-primary">可扩展的信息源</span>
+            <span className="text-[10px] uppercase tracking-wider text-white/35">
+              <span className="text-primary">X</span> .API
+            </span>
           </div>
           <p className="text-sm leading-relaxed text-white/70">
-            帮助 Agent 把 Twitter/X 公开信息源转成可引用、可归档的证据节点。
+            xapito 帮助 Agent 把 X 和更多开放来源转成可引用、可归档的证据节点。
           </p>
         </div>
       </div>
@@ -107,9 +77,7 @@ function FeatureBlock({ icon, title, description, points, image, visual, reverse
         <div className="relative group">
           <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-40 group-hover:opacity-70 transition-opacity duration-500" />
           <div className="relative rounded-xl overflow-hidden border border-white/15 bg-[#0d1220]">
-            {visual === "policy" ? (
-              <MockPolicyVisual />
-            ) : visual === "evidence" ? (
+            {visual === "evidence" ? (
               <MockEvidenceVisual />
             ) : (
               <img
@@ -157,28 +125,14 @@ export default function FeaturesSection() {
       icon: <Database className="w-6 h-6" />,
       title: "证据图谱与研究归档",
       description:
-        "Forecasting Agent Poly 会把新闻、官方公告、市场条款和 Twitter/X 公开信息源统一整理为证据图谱。xapito 可以帮助 Agent 接入并结构化这些实时信息，让每次预测都有可追溯的来源和冲突点。",
+        "Forecasting Agent Poly 会把新闻、官方公告、市场条款、X 和可扩展开放信息源统一整理为证据图谱。xapito 可以帮助 Agent 接入并结构化这些实时信息，让每次预测都有可追溯的来源和冲突点。",
       points: [
-        "采用 Twitter/X 信息源追踪一线叙事、KOL 观点和事件更新",
-        "高亮 xapito：把实时信息源转成可归档的结构化证据节点",
+        "采用 X 和 .API 来源追踪一线叙事、KOL 观点和事件更新",
+        "高亮 xapito：把可扩展信息源转成可归档的结构化证据节点",
         "记录模型判断、来源摘要、冲突点和版本变化，支持后续复盘",
       ],
       visual: "evidence",
       reverse: false,
-    },
-    {
-      icon: <Shield className="w-6 h-6" />,
-      title: "三级规则约束体系",
-      description:
-        "约束不依赖提示词，而是服务层硬规则。系统在输出预测结论前检查来源质量、事件定义、置信区间和人工复核条件。",
-      points: [
-        "事件规则不清晰时阻止生成确定性结论",
-        "证据冲突过高时自动标记需要复核",
-        "来源不足时降级为观察状态",
-        "所有规则命中都会写入归档记录",
-      ],
-      visual: "policy",
-      reverse: true,
     },
   ];
 
@@ -191,7 +145,7 @@ export default function FeaturesSection() {
             核心能力
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-            预测工作流、证据链和规则约束整合在同一套系统中
+            预测工作流、证据链和信息源扩展整合在同一套系统中
           </h2>
           <p className="text-white/60 text-lg">
             从市场分析到证据归档，Forecasting Agent Poly 提供完整的自主预测研究闭环。
