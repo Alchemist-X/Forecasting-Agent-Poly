@@ -90,9 +90,9 @@ export default function HeroSection() {
               {/* Glow ring */}
               <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl scale-150" />
               <img
-                src="/assets/forecasting-agent-poly.svg"
-                alt="Forecasting Agent Poly"
-                className="relative w-80 h-80 xl:w-96 xl:h-96 object-contain animate-float drop-shadow-2xl"
+                src="/assets/hero-oracle-crystal.png"
+                alt="Forecasting Agent Poly 主视觉"
+                className="relative w-80 h-80 xl:w-96 xl:h-96 object-cover rounded-[2rem] border border-white/15 animate-float shadow-2xl shadow-primary/10"
               />
             </div>
           </div>
