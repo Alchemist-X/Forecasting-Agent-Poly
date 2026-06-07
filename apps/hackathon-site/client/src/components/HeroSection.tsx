@@ -24,9 +24,9 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b0f1a]/60 via-[#0b0f1a]/40 to-[#0b0f1a]" />
       </div>
 
-      {/* Pulse Line Decoration */}
+      {/* Signal Line Decoration */}
       <div className="absolute top-1/2 left-0 right-0 h-px overflow-hidden opacity-30">
-        <div className="h-full w-full bg-gradient-to-r from-transparent via-primary to-transparent pulse-line" />
+        <div className="h-full w-full bg-gradient-to-r from-transparent via-primary to-transparent signal-line" />
       </div>
 
       {/* Content */}

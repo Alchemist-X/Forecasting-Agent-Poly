@@ -160,14 +160,14 @@
     text-shadow: 0 0 20px oklch(0.65 0.2 25 / 0.5);
   }
 
-  /* Pulse line animation */
-  @keyframes pulse-flow {
+  /* Signal line animation */
+  @keyframes signal-flow {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
   }
 
-  .pulse-line {
-    animation: pulse-flow 3s ease-in-out infinite;
+  .signal-line {
+    animation: signal-flow 3s ease-in-out infinite;
   }
 
   /* Float animation for logo */

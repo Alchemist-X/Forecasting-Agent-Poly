@@ -45,7 +45,7 @@ export default function PreviewSection() {
                 <span className="text-xs text-white/50 ml-3 font-mono">forecasting-agent-poly — 研究运行</span>
               </div>
               <div className="flex items-center gap-2">
-                <Activity className="w-3.5 h-3.5 text-primary animate-pulse" />
+                <Activity className="w-3.5 h-3.5 text-primary opacity-90" />
                 <span className="text-xs text-primary font-mono font-medium">演示轨迹</span>
               </div>
             </div>

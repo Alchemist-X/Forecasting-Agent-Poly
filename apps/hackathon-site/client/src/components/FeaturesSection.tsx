@@ -105,7 +105,7 @@ export default function FeaturesSection() {
         "结合多源证据进行结构化概率评估",
         "输出证据链、反方证据和人工复核提示",
       ],
-      image: "/assets/feature-pulse.png",
+      image: "/assets/feature-signal.png",
       reverse: false,
     },
     {
