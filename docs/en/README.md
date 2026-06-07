@@ -1,287 +1,275 @@
-<p align="center">
-  <img src="../../assets/forecasting-agent-poly.svg" alt="forecasting-agent-poly" width="220" />
-</p>
-
-<p align="center">
-  <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT" /></a>
-</p>
-
 # Forecasting Agent Poly
 
-> This is the English README. 中文版见 [README.md](../../README.md).
+> English README. 中文版见 [README.md](../../README.md).
 
-Last updated: 2026-05-15
+Forecasting Agent Poly is an autonomous forecasting agent for prediction markets. It turns market rules, news, official statements, X narratives, and extensible `.API` sources into auditable probability research. Each run preserves the evidence, assumptions, reasoning path, and final output so the result can be reviewed later.
 
----
+Project site: [https://hackathon-site-murex.vercel.app](https://hackathon-site-murex.vercel.app)
 
-**forecasting-agent-poly** is an AI Agent that autonomously runs on [Polymarket](https://polymarket.com) — the **first autonomous, continuously-running** trading agent for prediction markets.
+Repository: [https://github.com/Alchemist-X/Forecasting-Agent-Poly](https://github.com/Alchemist-X/Forecasting-Agent-Poly)
 
-Watch live:
+## One-Line Design
 
-- **Decision log / equity curve**: [forecasting-agent-poly.vercel.app](https://forecasting-agent-poly.vercel.app)
-- **On-chain positions / fills (Polymarket profile)**: [`0x6664...614e`](https://polymarket.com/profile/0x6664e32f79aee42639f73633e40b5a842b07614e)
+`event question -> research plan -> multi-source evidence -> evidence graph -> probability model -> policy checks -> research archive -> web display`
 
-## System Design
+The goal is not to output a single Yes/No number. The agent should answer:
 
-The system is built around a single core component, **Market Pulse**: it lets the AI independently estimate the probability of an event, dynamically gathers evidence from information sources, compares that evidence against the market's implied odds, and issues trading instructions that combine edge with capital return efficiency.
+- What exactly does the Polymarket event resolve on?
+- Which evidence supports the event, and which evidence argues against it?
+- Where did every piece of evidence come from, and when was it published?
+- Why does a new claim move probability up or down?
+- How does the agent estimate compare with market pricing?
+- Is the conclusion strong enough, or should it be marked for human review?
 
-### Why let an Agent do this
+## Why Forecasting Agents
 
-1. **Superhuman reasoning on complex tasks** — Agents now match or exceed human-level reasoning on complex problems. Most of the time, the human edge is better information sources rather than reasoning, and engineering can close that gap. The core analytical capability is already in place.
-2. **Broad coverage and fast reaction time** — An Agent can monitor thousands of markets 24/7 and spot pricing dislocations no individual could track. When news breaks, the Agent responds in seconds; a human needs at least three minutes. Opportunities like this appear across countless markets.
-3. **Prediction markets are still a blue ocean** — Most participants in political and tech prediction markets lack a clear pricing model and broadly fear inventory management and adverse-selection risk. Systematic Agent trading faces very little competition in these areas. Even in sports, there is plenty beyond moneyline markets.
+Prediction-market research is an information-flow problem. One event can depend on market terms, official sources, news timing, social narratives, policy signals, and breaking incidents. Humans can reason deeply, but they cannot monitor many events continuously or write a complete audit trail quickly after every update.
 
-### Core positioning
+Forecasting Agent Poly makes the workflow more systematic:
 
-- Every order the Agent places and its decision reasoning are published on the website
-- The Agent runs continuously in the cloud — not as ad-hoc local scripts — with no human in the loop
-- Runs on `@polymarket/clob-client-v2` with pUSD as the default collateral; the V2 cutover date is 2026-04-28 11:00 UTC.
+1. **Coverage**: monitor many candidate markets and information sources.
+2. **Speed**: reorganize evidence and update probabilities after new information appears.
+3. **Explainability**: tie probability changes to concrete evidence.
+4. **Extensibility**: swap data sources, model providers, and execution modes.
+5. **Archival quality**: produce structured research artifacts instead of black-box advice.
 
-## Quick Start
+## Architecture
 
-Driven entirely through an AI Agent (Claude Code / Codex / OpenClaw) in natural language. No commands to memorise.
-
-> **Prerequisite**: install either [Claude Code](https://claude.com/claude-code) or [Codex CLI](https://github.com/openai/codex), `git clone` this repo, and start the Agent inside the repo directory before going through the 4 steps below.
-
-### 1. Set up
-
-Say to the Agent:
-
-```
-install the dependencies for forecasting-agent-poly
-```
-
-Expected: the Agent runs `pnpm install` + `pnpm build` and tells you whether the environment is ready. If you don't have Node.js / pnpm yet, it'll install those first. No Docker, no real wallet required at this stage.
-
-### 2. Configure funds
-
-Forecasting-Agent-Poly supports multiple capital-management modes, including social login (Google, Telegram) and OKX Agentic Wallet.
-
-In private-key mode, get your Polymarket wallet credentials from polymarket.com → Settings → Export Wallet. Create a new `.env.live-test` (use `.env.example` as the template) and fill in these 5 fields:
-
-- `WALLET_PROVIDER=private-key`
-- `PRIVATE_KEY` — the wallet private key
-- `FUNDER_ADDRESS` — the Polymarket proxy wallet address
-- `SIGNATURE_TYPE` — signature type (`0` or `1`)
-- `CHAIN_ID` — `137` (Polygon mainnet)
-
-OKX Agentic Wallet mode does not need `PRIVATE_KEY`, but you must log in with `onchainos wallet login/verify` first and set `WALLET_PROVIDER=onchainos`, `FUNDER_ADDRESS` (the Polymarket deposit/proxy wallet with collateral/allowance), `SIGNATURE_TYPE=3`, and `CHAIN_ID=137`.
-
-Then say:
-
-```
-configure my wallet
+```mermaid
+flowchart TD
+  user["User / Scheduler / CLI"] --> intake["Event Intake<br/>market question and resolution rules"]
+  intake --> planner["Research Planner<br/>key nodes and search queries"]
+  planner --> sources["Source Collectors<br/>official sources / news / Polymarket / X / .API"]
+  sources --> graph["Evidence Graph<br/>source, time, stance, confidence, conflicts"]
+  graph --> model["Probability Model<br/>conditional decomposition and Bayesian updates"]
+  model --> policy["Policy Checks<br/>source quality, event boundary, opposition, confidence"]
+  policy --> archive["Research Archive<br/>reports, JSON, logs, screenshots, website"]
+  policy --> action["Decision Adapter<br/>read-only / paper / optional execution interface"]
+  archive --> site["Hackathon Site<br/>Chinese explanation and run examples"]
 ```
 
-Expected: the Agent reads your `.env.live-test`, confirms the wallet can talk to Polymarket, and prints the wallet address and current balance. If any field is missing, it tells you exactly which one.
+The architecture uses a `Market Pulse -> Decision Runtime -> Risk / Policy -> Archive / UI` layering, while the hackathon presentation focuses on the research-first version: explain where the probability comes from before deciding whether to do anything with it.
 
-### 3. Recommendations only (also fine if you haven't funded yet)
+## Core Components
 
-Say:
+### 1. Event Intake
 
+Prediction markets often hide ambiguity in their resolution rules: what counts as an agreement, who can speak for a party, which source resolves the market, and how the deadline is interpreted. The agent starts by converting a natural-language question into a resolution-aligned research target:
+
+- event text and market link
+- deadline
+- resolution rule
+- key entities and aliases
+- boundary cases that could create disagreement
+
+This prevents the model from researching a question that does not match the market.
+
+### 2. Research Planner
+
+Instead of searching one broad question, the agent breaks an event into smaller research nodes.
+
+For a nuclear-agreement market, the system might ask:
+
+- What counts as an agreement?
+- Is there credible evidence of active negotiation?
+- Are key decision-makers sending positive or negative signals?
+- Have official institutions published written commitments or denials?
+- Do sanctions, military activity, or domestic politics reduce the probability?
+- Which source will the market use for final resolution?
+
+### 3. Source Collectors
+
+Forecasting Agent Poly uses an extensible source layer rather than one fixed API.
+
+Current design targets:
+
+- **Polymarket**: title, rules, price, comments, and resolution information.
+- **Official sources**: government statements, institutional releases, legal or regulatory files, project announcements.
+- **News sources**: mainstream, specialist, and regional media.
+- **X**: real-time narratives, journalist updates, KOL views, and party statements.
+- **`.API` / xapito**: helps the agent connect to X and open information sources, then transform live narratives into structured evidence nodes.
+
+xapito does not make the final call. Its role is to help turn scattered real-time information into claims the agent can cite, score, compare, and archive.
+
+### 4. Evidence Graph
+
+Collected information is normalized into evidence nodes:
+
+| Field | Meaning |
+| --- | --- |
+| `source` | source type and URL |
+| `timestamp` | publication or retrieval time |
+| `claim` | what the evidence says |
+| `stance` | supporting, opposing, or neutral |
+| `weight` | source quality, recency, and relevance |
+| `confidence` | reliability estimate |
+| `conflicts` | conflicting evidence |
+
+This lets reviewers check whether the evidence is real, whether the weight is reasonable, and whether the reasoning follows.
+
+### 5. Probability Model
+
+The system decomposes complex events into conditional probabilities instead of guessing one number:
+
+```text
+P(Yes) = P(A) x P(B | A) x P(C | A and B)
+
+A = both sides keep an active negotiation path
+B = the text includes market-recognized key terms
+C = there is public confirmation accepted by the resolution source before deadline
 ```
-recommend some trades, no actual orders
-```
 
-Expected: the Agent lists a few suggested trades — each with the market, side, stake size, and its estimated edge and capital return efficiency. The full reasoning is also written to disk as markdown so you can review it later. **No orders are placed in this step**, so you can run it end-to-end even without USDC in the wallet.
+When new evidence appears, the agent explains which node it affects:
 
-### 4. Real-money live trading
+- Official statements supporting continued talks mainly raise `P(A)`.
+- Military escalation or sanction signals may reduce `P(A)` or `P(B | A)`.
+- Credible draft details may raise `P(B | A)`.
+- Strict market-resolution rules may limit `P(C | A and B)`.
 
-Say:
+### 6. Policy Checks
 
-```
-run the pulse with real money
-```
+Before producing a conclusion, the system checks:
 
-Expected: the Agent places real orders based on the recommendations from step 3 and tells you which ones filled and which got rejected.
+- whether the event definition is clear
+- whether enough independent sources were cited
+- whether opposing evidence was recorded
+- whether sources conflict
+- whether market rules are being confused with real-world interpretation
+- whether probability updates are traceable to evidence
+- whether the output should be marked for human review
 
-> For concrete pnpm commands, env vars, and archive directories, see [Illustration/dev-reference.md](../diagrams/dev-reference.md).
+This turns the answer into a research artifact rather than a black-box model opinion.
 
-## Architecture Overview
+### 7. Decision Adapter
 
-The system has four layers; data flows top to bottom:
+Forecasting Agent Poly supports several usage modes:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 1 · Research / Pulse                                 │
-│  Fetches Polymarket listings, produces the Pulse pool       │
-│  Output → runtime-artifacts/reports/pulse/...               │
-└───────────────────────────┬─────────────────────────────────┘
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 2 · Decision / Runtime                               │
-│  orchestrator turns Pulse + position context → decisions    │
-│  Main path: pulse-direct │ Legacy: provider-runtime         │
-└───────────────────────────┬─────────────────────────────────┘
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 3 · Execution / Risk                                 │
-│  Service-layer hard risk trimming → executor order / sync   │
-│  FOK market · ≤15% per trade · ≤80% expo · ≥30% halt        │
-└───────────────────────────┬─────────────────────────────────┘
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 4 · State / Archive / UI                             │
-│  DB / local state / runtime-artifacts archive / apps/web    │
-└─────────────────────────────────────────────────────────────┘
-```
+- **Read-only research**: output probability, evidence, and market-pricing comparison without execution.
+- **Paper flow**: test the decision and archive structure without live execution.
+- **Optional execution interface**: when the user explicitly configures the environment, passes preflight, and accepts the risk, research output can be handed to the execution layer.
 
-## Provider Switching
+The hackathon presentation emphasizes read-only research and reviewable archives.
 
-The system is not tied to a single AI framework. Swapping between Codex / Claude Code / OpenClaw is a one-line change:
+## Repository Map
+
+| Path | Purpose |
+| --- | --- |
+| `apps/hackathon-site` | Chinese hackathon website with project positioning, features, workflow, run examples, and Future Plans |
+| `apps/web` | Fuller run-result display and admin interface |
+| `services/orchestrator` | research inputs, candidate processing, probability decisions, policy checks, report artifacts |
+| `services/executor` | Polymarket connectivity, order interface, execution-layer risk checks, and state sync |
+| `packages/contracts` | shared schemas and type contracts |
+| `packages/db` | database schema, query helpers, and local-state fallback |
+| `packages/terminal-ui` | terminal output, progress display, error summaries, and tables |
+| `scripts` | workspace-level entry points for research, recommendation, testing, and execution flows |
+| `runtime-artifacts` | local archive directory for reports, JSON, summaries, checkpoints, and errors |
+| `docs` | architecture diagrams, run notes, demo script, and supporting docs |
+
+## Main Paths
+
+### Research / Recommendation
 
 ```bash
-AGENT_RUNTIME_PROVIDER=codex        # options: codex / claude-code / openclaw
+pnpm pulse:recommend
 ```
 
-Custom Agents are plugged in via a template command configured through `<PROVIDER>_COMMAND`. See [.env.example](../../.env.example) for examples and placeholders.
+Generates read-only research and candidate recommendations. This is the safest path for demos, debugging, and human review.
 
-## Decision Engine
+### Paper Flow
 
-There are currently two decision strategies, selected via the `AGENT_DECISION_STRATEGY` environment variable:
-
-### pulse-direct (current default)
-
-```
-Pulse markdown → Regex/table parsing → PulseEntryPlan
-                                        ↓
-Current positions → reviewCurrentPositions → hold/reduce/close
-                                        ↓
-           monthlyReturn sort (top 4) → 20% batch cap
-                                        ↓
-                   composePulseDirectDecisions → TradeDecisionSet
+```bash
+pnpm trial:recommend
+pnpm trial:approve
 ```
 
-No external LLM process is needed. Entry candidates are extracted directly from Pulse's structured sections, sorted by `monthlyReturn = edge / monthsToResolution`, the top 4 are taken, and total staking in a single round is capped at 20% of bankroll.
+Validates the research, decision, and archive flow without live execution.
 
-### provider-runtime (legacy comparison)
+### Hackathon Site
 
-Spawns an external process (Codex / OpenClaw / Claude Code CLI), passes Pulse + position context to the LLM, and parses stdout into a `TradeDecisionSet`. Still functional, but no longer the default path.
+```bash
+pnpm --filter @autopoly/hackathon-site dev
+pnpm --filter @autopoly/hackathon-site build
+pnpm --filter @autopoly/hackathon-site typecheck
+```
 
-## Risk Controls
+The public hackathon page is deployed on Vercel:
 
-**Core principle: risk controls do not rely on prompt engineering — they are service-layer hard rules.** No matter which provider or decision strategy runs upstream, anything entering the orchestrator / executor pipeline is bound by the same constraints: Agent reasoning errors, bad data, and model overreach cannot bypass them. Three tiers of defence plus Pulse-level preflight checks trim everything before orders go out; individual positions that cross the line are force-stopped; a system-wide drawdown breach halts trading immediately, and only an admin can resume (fail-closed).
+```text
+https://hackathon-site-murex.vercel.app
+```
 
-### System level
+### Live Path Note
 
-| Rule | Threshold | Effect |
-| --- | --- | --- |
-| Portfolio drawdown halt | NAV drawdown from HWM ≥ **30%** | Enter `halted`, block all new opens |
-| Recovery | Admin `resume` only | Fail-closed by design |
+The repository still contains live-oriented entry points such as `pnpm daily:pulse` and `pnpm pulse:live`. They require real environment variables, preflight, and explicit authorization. This README does not treat them as the default hackathon demo path; use read-only research or paper flow for presentation.
 
-### Position level
+## Artifacts
 
-| Rule | Threshold |
-| --- | --- |
-| Per-position stop-loss | Unrealized loss ≥ **30%** |
-| Stop-loss priority | Higher than regular strategy actions |
+A complete research run usually preserves:
 
-### Execution level
+- market question and resolution rule
+- source list: news, official statements, Polymarket, X, `.API`
+- evidence graph: supporting, opposing, neutral, conflicts
+- probability breakdown: baseline, conditional probabilities, update path
+- policy checks: source gaps, review flags, uncertainty
+- final output: agent probability, market pricing, difference explanation
+- web presentation for judges and collaborators
 
-| Rule | Default |
-| --- | --- |
-| Order type | **FOK** market orders |
-| Per-trade cap | **15%** of bankroll |
-| Max total exposure | **80%** of bankroll |
-| Max per-event exposure | **30%** of bankroll |
-| Max concurrent positions | **22** |
-| Minimum trade notional | **$5** |
-| Minimum effective notional | Below threshold → discard |
+## Model Providers
 
-### Pulse level
+The system is not tied to a single agent framework:
 
-- Must come from a real `fetch_markets.py` fetch — no mock fallback
-- Stale Pulse (>120 minutes) or too few candidates (<1) is treated as a risk state; no new `open` in that round
-- `open` actions' `token_id` must originate from the Pulse candidate set
+```bash
+AGENT_RUNTIME_PROVIDER=codex
+AGENT_RUNTIME_PROVIDER=claude-code
+AGENT_RUNTIME_PROVIDER=openclaw
+```
 
-Full rules: [risk-controls.md](../risk-controls.md).
+Providers assist reasoning, but the evidence structure, policy checks, archive format, and execution constraints stay in the engineering layer whenever possible.
 
-## Environment Variables
+## Hackathon Materials
 
-Full template: [.env.example](../../.env.example)
+4-minute video script:
 
-Organised into four groups:
+```text
+docs/hackathon-submission-video-script.md
+```
 
-| Group | Key Variables | Purpose |
-| --- | --- | --- |
-| **Shared** | `AUTOPOLY_EXECUTION_MODE` `DATABASE_URL` `REDIS_URL` `AUTOPOLY_LOCAL_STATE_FILE` | Execution mode (paper/live), infra connections |
-| **Web** | `ADMIN_PASSWORD` `ORCHESTRATOR_INTERNAL_TOKEN` | Admin authentication |
-| **Executor** | `WALLET_PROVIDER` `PRIVATE_KEY` `FUNDER_ADDRESS` `SIGNATURE_TYPE` `CHAIN_ID` `ONCHAINOS_BIN` | Polymarket wallet and chain config |
-| **Orchestrator** | `AGENT_RUNTIME_PROVIDER` `AGENT_DECISION_STRATEGY` `PULSE_*` `CODEX_*` | Provider selection, Pulse fetching, risk parameters |
+Published project site:
 
-If your Polymarket credentials live in an adjacent repo, you can set `ENV_FILE=../pm-PlaceOrder/.env.aizen`. For real-money testing, stick to a dedicated `.env.live-test`.
+```text
+https://hackathon-site-murex.vercel.app
+```
 
-## Wallet and Account Setup
+## Development Commands
 
-The Polymarket order path supports two signer modes.
+Install dependencies:
 
-Private-key mode needs:
+```bash
+pnpm install
+```
 
-- `WALLET_PROVIDER=private-key`
-- `PRIVATE_KEY` — wallet private key (prefer a Polymarket proxy wallet over your main wallet)
-- `FUNDER_ADDRESS` — the Polymarket proxy wallet address (the one that holds collateral)
-- `SIGNATURE_TYPE` — `0` or `1`, depending on wallet type
-- `CHAIN_ID` — `137` (Polygon mainnet)
+Build all packages:
 
-OKX Agentic Wallet / OnchainOS mode needs:
+```bash
+pnpm build
+```
 
-- `WALLET_PROVIDER=onchainos` (`okx-agentic` remains a compatibility alias)
-- `ONCHAINOS_BIN` — defaults to `onchainos`
-- `FUNDER_ADDRESS` — Polymarket deposit/proxy wallet address with collateral/allowance
-- `SIGNATURE_TYPE=3` — deposit wallet / POLY_1271
-- `CHAIN_ID=137`
+Typecheck all packages:
 
-Keep these in separate per-purpose files, none of which are committed:
+```bash
+pnpm typecheck
+```
 
-- `.env.live-test` — real-money live-trading credentials
-- `.env.<wallet-name>` (e.g. `.env.primary`) — split by wallet name to avoid mixing them up
+Run the hackathon site locally:
 
-Every preflight prints the current `ENV_FILE`, wallet address, and collateral amount. If any of them do not match, it aborts immediately so you never accidentally trade on the wrong wallet.
+```bash
+pnpm --filter @autopoly/hackathon-site dev
+```
 
-## External Repository Dependencies
+## Design Principles
 
-`vendor/manifest.json` pins the following external repos to specific commits:
-
-| Repository | Purpose |
-| --- | --- |
-| `polymarket-trading-TUI` | Trading terminal and CLOB wiring reference |
-| `polymarket-market-pulse` | Pulse research input |
-| `alert-stop-loss-pm` | Stop-loss logic reference |
-| `all-polymarket-skill` | Backtesting, monitor, resolution skill references |
-| `pm-PlaceOrder` | Order placement reference and local credential source |
-
-Run `pnpm vendor:sync` to sync them into `vendor/repos/`. A plain `pnpm build` does not need vendor, but the pulse / trial / live paths must sync first.
-
-## Run Archives
-
-All run artifacts are written to `runtime-artifacts/` (already in `.gitignore`), rooted at `ARTIFACT_STORAGE_ROOT`.
-
-| Path | Contents |
-| --- | --- |
-| `reports/pulse/YYYY/MM/DD/` | Pulse markdown + JSON |
-| `reports/review\|monitor\|rebalance/` | Portfolio reports |
-| `reports/runtime-log/` | Decision runtime explanatory logs |
-| `pulse-live/<timestamp>-<runId>/` | Pulse Live run artifacts |
-| `live-test/<timestamp>-<runId>/` | Stateful run artifacts (includes `error.json` on failure) |
-| `checkpoints/trial-recommend/` | Paper recommendation resume checkpoints |
-| `local/paper-state.json` | Default paper state file |
-
-Failure archives (per the AGENTS convention) go to `run-error/` with the failing stage, core context, root-cause summary, and next-step command.
-
-## TODO
-
-- [ ] **High priority · logged 2026-04-21** — Manual review and optimisation of the Pulse flow (end-to-end: prompts / skill docs, candidate and archive quality, keeping `Illustration/pulse-live-flow.md` and friends aligned with real runs).
-
-## Doc Index
-
-- [AGENTS.md](../../AGENTS.md) / [CLAUDE.md](../../CLAUDE.md) — Agent collaboration conventions (required reading)
-- [risk-controls.md](../risk-controls.md) — Full write-up of the hard risk rules
-- [.env.example](../../.env.example) — Environment variable template
-- [Illustration/onboarding-architecture.md](../diagrams/onboarding-architecture.md) — Architecture diagram + module map
-- [Illustration/trading-modes-flowchart.md](../diagrams/trading-modes-flowchart.md) — Trading mode flowchart
-- [Illustration/hostinger-vps-deploy-runbook.md](../diagrams/hostinger-vps-deploy-runbook.md) — VPS deployment runbook
-- [Illustration/dev-reference.md](../diagrams/dev-reference.md) — Command cheatsheet / dependency matrix / deployment shapes
-- [progress.md](../progress.md) — Implementation progress and run-data snapshot
-- [rough-loop.md](../../rough-loop.md) — Rough Loop subsystem entry point
-
-Historical handoff docs and one-off exploration notes are archived under [Wasted/README.md](../archive/README.md).
+1. **Evidence before probability**: a number without an evidence chain should not be treated as a strong conclusion.
+2. **Rules before event interpretation**: prediction must match the market's resolution rule.
+3. **Archive before presentation**: every important judgment should leave reviewable material.
+4. **Read-only before execution**: research and execution are separated; the default demo does not need live execution.
+5. **Replaceable components**: sources, model providers, web display, and execution modes can all be swapped.
