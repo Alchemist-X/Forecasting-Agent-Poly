@@ -28,6 +28,7 @@ agents.env
 # --- Local-only state files ---
 .rough-loop.pause
 .rough-loop.lock
+screenlog.*
 
 # --- Claude Code transient worktrees (multi-GB sub-agent scratch dirs) ---
 .claude/worktrees/
